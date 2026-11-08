@@ -1,0 +1,17 @@
+{
+	"geode": "5.11.2",
+	"gd": {
+		"win": "2.2081",
+		"android": "2.2081",
+		"mac": "2.2081",
+		"ios": "2.2081"
+	},
+	"id": "rayjazzthegoat.input-buffer",
+	"name": "Input Buffer",
+	"version": "v1.2.0",
+	"developer": "RayjazzTheGoat",
+	"description": "Click early and the mod saves your click, then fires it on the first frame it becomes valid (orbs and landings). Themes included.",
+	"dependencies": {
+		"geode.node-ids": ">=v1.23.3"
+	}
+}
