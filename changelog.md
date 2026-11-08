@@ -1,3 +1,6 @@
+# v1.2.1
+- Shift now uses a safer per-frame key check (fixes a build error risk).
+
 # v1.2.0
 - New button on the main menu that opens the panel.
 - Press Shift in the main menu or pause menu to open the panel (press it again to close).
