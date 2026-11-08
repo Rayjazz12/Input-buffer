@@ -19,7 +19,7 @@ jobs:
           bindings: geode-sdk/bindings
           bindings-ref: main
           combine: true
-          target: Win
+          platform: win
 
   package:
     name: Package
