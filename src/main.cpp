@@ -10,6 +10,21 @@ $execute {
 }
 
 // ---------------------------------------------------------------
+// Shift opens (and closes) the panel from the main menu or pause menu.
+// We check the Shift key every frame while one of those menus is up,
+// so it never interferes with typing on other screens or the editor.
+// ---------------------------------------------------------------
+namespace {
+	bool g_shiftWasDown = false;
+
+	void pollShiftKey() {
+		bool down = CCKeyboardDispatcher::get()->getShiftKeyPressed();
+		if (down && !g_shiftWasDown) BufferPopup::toggle();
+		g_shiftWasDown = down;
+	}
+}
+
+// ---------------------------------------------------------------
 // Main menu button that opens the Input Buffer GUI
 // ---------------------------------------------------------------
 #include <Geode/modify/MenuLayer.hpp>
@@ -20,7 +35,7 @@ class $modify(IBMenuLayer, MenuLayer) {
 		auto spr = CircleButtonSprite::create(
 			CCLabelBMFont::create("IB", "bigFont.fnt"),
 			CircleBaseColor::Blue,
-			CircleBaseSize::MediumAlt
+			CircleBaseSize::Medium
 		);
 		auto btn = CCMenuItemSpriteExtra::create(spr, this, menu_selector(IBMenuLayer::onBuffer));
 		btn->setID("input-buffer-menu-button"_spr);
@@ -29,30 +44,17 @@ class $modify(IBMenuLayer, MenuLayer) {
 			menu->addChild(btn);
 			menu->updateLayout();
 		}
+
+		this->schedule(schedule_selector(IBMenuLayer::pollShift));
 		return true;
+	}
+
+	void pollShift(float) {
+		pollShiftKey();
 	}
 
 	void onBuffer(CCObject*) {
 		BufferPopup::toggle();
-	}
-};
-
-// ---------------------------------------------------------------
-// Shift opens (and closes) the panel from the main menu or pause menu.
-// It is ignored while typing in other screens and inside the editor.
-// ---------------------------------------------------------------
-#include <Geode/modify/CCKeyboardDispatcher.hpp>
-class $modify(IBKeyDispatcher, CCKeyboardDispatcher) {
-	bool dispatchKeyboardMSG(enumKeyCodes key, bool down, bool repeat, double timestamp) {
-		bool result = CCKeyboardDispatcher::dispatchKeyboardMSG(key, down, repeat, timestamp);
-
-		bool isShift = key == KEY_Shift || key == KEY_LeftShift || key == KEY_RightShift;
-		if (down && !repeat && isShift) {
-			auto scene = CCDirector::sharedDirector()->getRunningScene();
-			bool inMenu = scene && (scene->getChildByType<MenuLayer>(0) || scene->getChildByType<PauseLayer>(0));
-			if (inMenu) BufferPopup::toggle();
-		}
-		return result;
 	}
 };
 
@@ -84,6 +86,12 @@ class $modify(IBPauseLayer, PauseLayer) {
 			menu2->addChild(btn);
 			this->addChild(menu2, 10);
 		}
+
+		this->schedule(schedule_selector(IBPauseLayer::pollShift));
+	}
+
+	void pollShift(float) {
+		pollShiftKey();
 	}
 
 	void onBuffer(CCObject*) {
