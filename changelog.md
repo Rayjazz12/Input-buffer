@@ -1,3 +1,10 @@
+# v2.0.1
+- Fixed the build: replaced the removed `geode::cocos::getChildOfType` popup
+  check with a small recursive alert search.
+- Fixed two "redefinition of 'menu'" compile errors in the menu / pause-menu
+  fallback paths.
+- Marked `BufferPopup::init()` as `override`.
+
 # v2.0.0
 - Buffer rewritten around real frames: a saved click now fires only on a fresh
   orb or on the exact landing frame, and each of those uses one click. Standing

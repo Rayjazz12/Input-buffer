@@ -178,7 +178,7 @@ protected:
 	}
 
 	// ---- build -----------------------------------------------------
-	bool init() {
+	bool init() override {
 		if (!Popup::init(W, H)) return false;
 		s_open = this;
 

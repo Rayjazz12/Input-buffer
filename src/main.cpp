@@ -86,10 +86,19 @@ namespace {
 namespace {
 	bool g_shiftDown = false;
 
+	bool findAlert(CCNode* node) {
+		if (!node) return false;
+		if (typeinfo_cast<FLAlertLayer>(node)) return true;
+		auto kids = node->getChildren();
+		if (!kids) return false;
+		for (unsigned i = 0; i < kids->count(); i++) {
+			if (findAlert(static_cast<CCNode*>(kids->objectAtIndex(i)))) return true;
+		}
+		return false;
+	}
+
 	bool anotherPopupIsOpen() {
-		auto scene = CCDirector::sharedDirector()->getRunningScene();
-		if (!scene) return false;
-		return geode::cocos::getChildOfType<FLAlertLayer>(scene, 0) != nullptr;
+		return findAlert(CCDirector::sharedDirector()->getRunningScene());
 	}
 
 	void pollShift() {
@@ -131,10 +140,10 @@ class $modify(IBMenuLayer, MenuLayer) {
 			menu->updateLayout();
 		} else {
 			// fallback: pin it to the bottom left corner if the menu id changed
-			auto menu = CCMenu::create();
-			menu->setPosition({ 30.f, 30.f });
-			menu->addChild(btn);
-			this->addChild(menu, 10);
+			auto corner = CCMenu::create();
+			corner->setPosition({ 30.f, 30.f });
+			corner->addChild(btn);
+			this->addChild(corner, 10);
 		}
 
 		this->schedule(schedule_selector(IBMenuLayer::pollShift));
@@ -165,11 +174,11 @@ class $modify(IBPauseLayer, PauseLayer) {
 			menu->updateLayout();
 		} else {
 			auto win = CCDirector::sharedDirector()->getWinSize();
-			auto menu = CCMenu::create();
-			menu->setPosition({ win.width - 32.f, 60.f });
+			auto corner = CCMenu::create();
+			corner->setPosition({ win.width - 32.f, 60.f });
 			btn->setPosition({ 0.f, 0.f });
-			menu->addChild(btn);
-			this->addChild(menu, 10);
+			corner->addChild(btn);
+			this->addChild(corner, 10);
 		}
 
 		this->schedule(schedule_selector(IBPauseLayer::pollShift));
