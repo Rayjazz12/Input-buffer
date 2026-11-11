@@ -8,9 +8,9 @@
 	},
 	"id": "rayjazzthegoat.input-buffer",
 	"name": "Input Buffer",
-	"version": "v1.2.1",
+	"version": "v2.0.0",
 	"developer": "RayjazzTheGoat",
-	"description": "Click early and the mod saves your click, then fires it on the first frame it becomes valid (orbs and landings). Themes included.",
+	"description": "Click a little early and the mod holds the click, then fires it on the first frame it can be used (orbs and landings). Themes, on-screen queue and click counter included.",
 	"dependencies": {
 		"geode.node-ids": ">=v1.23.3"
 	}

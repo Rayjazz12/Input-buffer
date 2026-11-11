@@ -1,3 +1,21 @@
+# v2.0.0
+- Buffer rewritten around real frames: a saved click now fires only on a fresh
+  orb or on the exact landing frame, and each of those uses one click. Standing
+  on the ground can no longer drain or re-fire your queue.
+- Saved clicks never fire while you are holding the button, so the mod can't
+  fight your own input.
+- The panel is a proper Geode popup now: correct background, close button,
+  Escape to close and no leftover invisible menu. Reopening it twice no longer
+  leaves a broken panel behind.
+- New **HUD** toggle: your waiting clicks show in the bottom left, fading as
+  their window runs out, so you can see the buffer working.
+- Flash dot is drawn directly, so it works even when the sprite sheets change.
+- Themes retinted for the new panel: Ocean, Sunset, Mint, Grape, Rose, Midnight.
+- Click counter is saved on close/exit instead of on every click (no hitching).
+- Buttons fall back to a corner menu if the vanilla menu ids ever change.
+- Shift is ignored while another popup is open.
+- CI now builds Windows, macOS, Android and iOS.
+
 # v1.2.1
 - Shift now uses a safer per-frame key check (fixes a build error risk).
 
